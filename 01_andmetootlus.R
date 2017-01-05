@@ -31,6 +31,7 @@ majade_vanus_raw <- read_csv2("data/tallinna_majade_vanus.csv") %>%
 
 # Kogu Eesti aadressiregistri väljavõte, et saada hoonete koordinaadid
 # Ehitusregistri andmetega sidumiseks orig_tunnus
+# http://xgis.maaamet.ee/adsavalik/ads
 aadressiregister_raw <- read_csv2("data/1_17122016_21244_784_1.csv")
 
 # Paranda kodeeringud
