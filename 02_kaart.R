@@ -9,6 +9,7 @@ library(tidyverse)
 library(stringr)
 library(sf)
 library(viridis)
+library(webshot)
 
 # lae andmed
 load("output/majad_tallinnas_vanusega.RData")
@@ -41,7 +42,12 @@ kaart <- majad_tallinnas_vanusega %>%
             values = majad_tallinnas_vanusega$esmane_kasutus, 
             position = "bottomright", 
             title = "Hoone esmane kasutus",
-            labFormat = labelFormat(big.mark = ""))
+            labFormat = labelFormat(big.mark = "")) %>% 
+  setView(24.7467027, 59.4339144, zoom = 12)
 
-# salvesta kaart blogis kasutamiseks
+# salvesta interaktiivne kaart blogis kasutamiseks
 saveWidget(kaart, file = "majad_tallinnas_vanusega.html", selfcontained = TRUE)
+
+# salvesta kaardist pilt blogis viitamiseks
+webshot("majad_tallinnas_vanusega.html", file = "output/majad_tallinnas_vanusega.png",
+        cliprect = "viewport", vwidth = 1200, vheight = 900, delay = 1)
