@@ -1,0 +1,38 @@
+---
+title: "Mapdeck abil kaart"
+---
+
+Katseta https://github.com/SymbolixAU/mapdeck paketti, et hooned koos vanusega kaardil kuvada. See peaks olema olulisemalt kiirem kui leaflet suure hulga andmete korraga kuvamiseks kaardil
+
+```{r}
+library(tidyverse)
+library(sf)
+library(mapdeck)
+library(viridis)
+
+# lae andmed
+load("output/majad_tallinnas_vanusega.RData")
+
+# mapbox token
+source("config.R")
+```
+
+Tutvu andmetega
+```{r}
+glimpse(majad_tallinnas_vanusega)
+```
+
+Kanna kaardile kõigi Tallinna hoonete vanused
+```{r}
+mapdeck(token = key, 
+        style = 'mapbox://styles/mapbox/dark-v9',
+        location = c(24.76125, 59.44139),
+        zoom = 10) %>% 
+  add_polygon(data = majad_tallinnas_vanusega %>% 
+                mutate(tooltip = paste0(aadress, "<br>", "Esmane kasutus: ", "<b>", 
+                                        esmane_kasutus, "<b>")), 
+              layer = "polygon_layer",
+              fill_colour = "esmane_kasutus",
+              tooltip = "tooltip",
+              palette = plasma)
+```
